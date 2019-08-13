@@ -25,6 +25,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@tarojs/async-await": "^1.3.13",
     "@tarojs/components": "1.3.4",
     "@tarojs/components-rn": "^1.3.4",
     "@tarojs/redux": "^1.3.13",

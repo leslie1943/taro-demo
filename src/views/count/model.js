@@ -1,15 +1,19 @@
+import "@tarojs/async-await"
+import * as homeApi from './service'
+console.info('homeApi:', homeApi)
 export default {
   namespace: 'count',
   state: {
     current: 0
   },
   effects: {
-    // *adding({ call, put, select }) {
-    //   yield put({ type: 'add' })
-    // },
-    // *reducing({ call, put, select }) {
-    //   yield put({ type: 'reduce' })
-    // }
+    *load({ payload, callback }, { call, put, select }) {
+      const res = yield call(homeApi.homepage, {})
+      // console.info('res:', res)
+      if (res.status === 'ok') {
+        callback(res.data)
+      }
+    },
   },
   reducers: {
     add(state, { payload }) {

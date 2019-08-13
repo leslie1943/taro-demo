@@ -1,6 +1,6 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, } from '@tarojs/components'
-import { AtButton, AtDivider } from 'taro-ui'
+import { AtButton, AtDivider, AtList, AtListItem, AtModal } from 'taro-ui'
 import { connect } from '@tarojs/redux';
 import './index.scss'
 
@@ -17,6 +17,12 @@ interface iComponentCount {
 export default class Index extends Component<iComponentCount> {
   constructor(props) {
     super(props)
+    this.state = {
+      stars: [],
+      loading: false,
+      isOpened: false,
+      currentDoc: {}
+    }
   }
 
   config: Config = {
@@ -24,9 +30,13 @@ export default class Index extends Component<iComponentCount> {
   }
 
   componentDidMount() {
-    // Taro.getLocation({
-    //   success: res => console.log(res)
-    // }).then(res => console.log('res', res))
+    this.setState({ loading: true })
+    this.props.dispatch({
+      type: 'count/load',
+      callback: (res: any) => {
+        this.setState({ stars: res.stars, loading: false })
+      }
+    })
   }
 
   toDemo = () => {
@@ -44,9 +54,17 @@ export default class Index extends Component<iComponentCount> {
       type: 'count/reduce'
     })
   }
+  handleItemClick = (item) => {
+    console.info(item)
+    this.setState({
+      isOpened: true,
+      currentDoc: item
+    })
+  }
   render() {
     console.info('this in views/count/index.tsx:', this)
     const { current } = this.props
+    const { stars, loading, isOpened, currentDoc } = this.state
     return (
       <View>
         <View>
@@ -59,6 +77,28 @@ export default class Index extends Component<iComponentCount> {
           <View style="display:flex;" className="bottom-10">
             <AtButton onClick={this.add} className='btn-max-w count' >Count++</AtButton>
             <AtButton onClick={this.reduce} type='secondary' className='btn-max-w count' >Count--</AtButton>
+          </View>
+
+          <View>
+            <AtDivider content="call api to load data"></AtDivider>
+            <AtList>
+              {stars.map(item => {
+                return <AtListItem
+                  onClick={this.handleItemClick.bind(this, item)}
+                  title={item.name}
+                  note={item.description}
+                  arrow="right"
+                  thumb={item.image_src}
+                >
+                </AtListItem>
+              })}
+            </AtList>
+            <AtModal isOpened={isOpened}
+              content={currentDoc.description}
+              title='Detail'
+              cancelText='取消'
+              confirmText='确认'>
+            </AtModal>
           </View>
 
           <AtButton onClick={this.toDemo} type='primary' className='btn-max-w' >To Demo 2</AtButton>

@@ -1,5 +1,5 @@
 const config = {
-  projectName: 'taro-demo',
+  projectName: 'Leslie-taro',
   date: '2019-7-2',
   designWidth: 750,
   deviceRatio: {

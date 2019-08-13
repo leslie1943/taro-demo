@@ -28,10 +28,10 @@ Trace:
 
 npm manifest: 
   {
-    "name": "taro-demo",
+    "name": "leslie-taro",
     "version": "1.0.0",
     "private": true,
-    "description": "taro-demo",
+    "description": "leslie-taro",
     "templateInfo": {
       "name": "default",
       "typescript": true,

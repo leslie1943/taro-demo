@@ -1,14 +1,28 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-// Text
 import { View } from '@tarojs/components'
-// , AtFab,
-import { AtButton, AtIcon, AtCountdown, AtList, AtListItem } from 'taro-ui'
+import { AtButton, AtDivider, AtForm, AtInput } from 'taro-ui'
 import './index.scss'
+import { connect } from '@tarojs/redux';
+import epro from '../../static/banners/epro.png'
 
-export default class Index extends Component {
-  // constructor() {
-  //   super(...arguments)
-  // }
+// 定义接口
+interface iComponentCount {
+  user: String,
+  password: String,
+  dispatch: Function,
+}
+
+@connect(({ home }) => ({
+  ...home,
+}))
+export default class Index extends Component<iComponentCount> {
+  constructor() {
+    super(...arguments)
+    this.state = {
+      user: '',
+      password: ''
+    }
+  }
 
   /**
    * 指定config的类型声明为: Taro.Config
@@ -20,6 +34,11 @@ export default class Index extends Component {
   config: Config = {
     navigationBarTitleText: 'Home'
   }
+  componentWillMount() { }
+  componentDidMount() { }
+  componentWillUnmount() { }
+  componentDidShow() { }
+  componentDidHide() { }
 
   click = () => {
     console.info('click handle')
@@ -34,56 +53,68 @@ export default class Index extends Component {
       url: '/views/hero/index'
     })
   }
-  componentWillMount() { }
-  componentDidMount() { }
-  componentWillUnmount() { }
-  componentDidShow() { }
-  componentDidHide() { }
-
-  onTimeUp = () => {
-    Taro.showToast({
-      title: '时间到', icon: 'success', duration: 2000
+  onSubmit = () => {
+    console.info('submit')
+    console.info('this.props', this.props)
+    this.props.dispatch({
+      type: 'home/login',
+      payload: this.state,
+      callback: (res: any) => {
+        this.setState({ stars: res.stars, loading: false })
+      }
     })
+  }
+
+  onReset = () => {
+  }
+  handleChange = (stateName, stateVal) => {
+    if (stateName == 'user') {
+      this.setState({
+        user: stateVal
+      })
+    }
+    if (stateName == 'password') {
+      this.setState({
+        password: stateVal
+      })
+    }
   }
 
   render() {
     return (
       <View className="all">
-        <View className='index'>
-          <AtIcon value='clock' size='20' color='black'></AtIcon>
-          <AtCountdown
-            format={{ hours: ':', minutes: ':', seconds: '' }}
-            seconds={10000}
-            onTimeUp={this.onTimeUp}
-          />
+
+        <View className='index' style="height:200px;color:white;">
+          <img src={epro}></img>
         </View>
+        <AtDivider />
         <View>
-          <AtList>
-            <AtListItem
-              title='标题文字'
-              arrow='right'
-              extraText='详细信息'
-              thumb='https://img12.360buyimg.com/jdphoto/s72x72_jfs/t6160/14/2008729947/2754/7d512a86/595c3aeeNa89ddf71.png'
+          <AtForm>
+            <AtInput
+              name='user'
+              type='text'
+              placeholder="用户名"
+              value={this.state['user']}
+              onChange={this.handleChange.bind(this, 'user')}
             />
-            <AtListItem
-              title='标题文字'
-              note='描述信息'
-              extraText='详细信息'
-              arrow='down'
-              thumb='http://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png'
+            <AtInput
+              name='password'
+              type='password'
+              placeholder="密 码"
+              value={this.state['password']}
+              onChange={this.handleChange.bind(this, 'password')}
             />
-            <AtListItem
-              title='标题文字'
-              note='描述信息'
-              extraText='详细信息'
-              arrow='up'
-              thumb='http://img12.360buyimg.com/jdphoto/s72x72_jfs/t10660/330/203667368/1672/801735d7/59c85643N31e68303.png'
-            />
-          </AtList>
+            <View  >
+              <AtButton type="primary" onClick={this.onSubmit} formType='submit'>登录</AtButton>
+            </View>
+            {/* <AtButton formType='reset'>重置</AtButton> */}
+          </AtForm>
         </View>
 
-        <View className='index'>
+        <View className='index' style="margin-top:10px;">
           <AtButton type='secondary' onClick={this.toMember}>To member list</AtButton>
+        </View>
+        <View className='index' style="margin-top:10px;">
           <AtButton type='secondary' onClick={this.toHeroList}>To tab list</AtButton>
         </View>
       </View>

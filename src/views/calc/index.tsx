@@ -1,6 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { AtButton, AtTimeline, AtMessage } from 'taro-ui'
+// AtTimeline
+import { AtButton, AtMessage } from 'taro-ui'
 import './index.scss'
 
 export default class Index extends Component {
@@ -9,7 +10,6 @@ export default class Index extends Component {
   }
 
   toHome = () => {
-    // Taro.redirectTo({
     Taro.switchTab({
       url: '/views/index/index'
     })
@@ -23,8 +23,8 @@ export default class Index extends Component {
   }
   render() {
     return (
-      <View>
-        <AtTimeline
+      <View >
+        {/* <AtTimeline
           items={[
             { title: '吃饭' },
             { title: '睡觉', color: 'green' },
@@ -35,13 +35,12 @@ export default class Index extends Component {
             { title: '改BUG', color: 'red' },
           ]}
         >
-        </AtTimeline>
+        </AtTimeline> */}
         <AtMessage />
-        <AtButton onClick={this.handleSuccess.bind(this, 'success')}>
-          成功消息
-        </AtButton>
-        <View>
-          I am demo2
+        <View style="margin-top:10px;">
+          <AtButton type='primary' onClick={this.handleSuccess.bind(this, 'success')}>成功消息</AtButton>
+        </View>
+        <View style="margin-top:10px;">
           <AtButton onClick={this.toHome} type='primary' className='btn-max-w' >To Home</AtButton>
         </View>
       </View>

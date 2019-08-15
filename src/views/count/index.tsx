@@ -41,15 +41,21 @@ export default class Index extends Component<iComponentCount> {
 
   toDemo = () => {
     Taro.redirectTo({
-      url: '/views/demo2/index'
+      url: '/views/calc/index'
     })
   }
   add = () => {
+    this.setState({
+      isOpened: false
+    })
     this.props.dispatch({
       type: 'count/add'
     })
   }
   reduce = () => {
+    this.setState({
+      isOpened: false
+    })
     this.props.dispatch({
       type: 'count/reduce'
     })
@@ -101,7 +107,7 @@ export default class Index extends Component<iComponentCount> {
             </AtModal>
           </View>
 
-          <AtButton onClick={this.toDemo} type='primary' className='btn-max-w' >To Demo 2</AtButton>
+          <AtButton onClick={this.toDemo} type='primary' className='btn-max-w' >开始口算吧 </AtButton>
         </View>
       </View>
     )

@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 import { baseUrl, noConsole } from '../config'
+// import { getUUId } from './base'
 
 export default (options = { method: 'GET', data: {} }) => {
   if (!noConsole) {

@@ -36,7 +36,7 @@ class App extends Component {
       'views/index/index',
       'views/member/index',
       'views/count/index',
-      'views/demo2/index',
+      'views/calc/index',
       'views/hero/index'
     ],
     window: {

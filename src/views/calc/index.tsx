@@ -1,10 +1,18 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import { View, Input } from '@tarojs/components'
 // AtTimeline
-import { AtButton, AtMessage } from 'taro-ui'
+import { AtButton, AtMessage, AtInput } from 'taro-ui'
 import './index.scss'
 
 export default class Index extends Component {
+  constructor() {
+    super(...arguments)
+    this.state = {
+      name: '',
+      age: '',
+      gender: '',
+    }
+  }
   config: Config = {
     navigationBarTitleText: 'Demo 2 page'
   }
@@ -21,21 +29,25 @@ export default class Index extends Component {
       'message': '成功通知!'
     })
   }
+  handleNameChange = (value: any) => {
+    this.setState({ name: value })
+  }
+
+  handleAgeChange = (value: any) => {
+    this.setState({ age: value })
+  }
+
+  handleSexChange = (value: any) => {
+    this.setState({ sex: value })
+  }
+
   render() {
+    console.info('this.state', this.state)
     return (
       <View >
-        {/* <AtTimeline
-          items={[
-            { title: '吃饭' },
-            { title: '睡觉', color: 'green' },
-            { title: '改BUG', color: 'red' },
-            { title: '睡觉', color: 'yellow' },
-            { title: '吃饭' },
-            { title: '睡觉', color: 'green' },
-            { title: '改BUG', color: 'red' },
-          ]}
-        >
-        </AtTimeline> */}
+        <View><AtInput title="name:" value={this.state.name} name="name" onBlur={this.handleNameChange} /></View>
+        <View><AtInput title="age:" value={this.state.age} name="age" onBlur={this.handleAgeChange} /></View>
+        <View><AtInput title="sex:" value={this.state.sex} name="sex" onBlur={this.handleSexChange} /></View>
         <AtMessage />
         <View style="margin-top:10px;">
           <AtButton type='primary' onClick={this.handleSuccess.bind(this, 'success')}>成功消息</AtButton>
